@@ -1,4 +1,5 @@
-﻿# include <Siv3D.hpp> // Siv3Dライブラリをインクルード
+﻿# include <Siv3D.hpp>
+# include "Bird.h"
 
 void Main()
 {
@@ -23,6 +24,9 @@ void Main()
 	// スクロール用変数
 
 
+	// Instantiate the bird
+	Bird bird{ Scene::CenterF().x, Scene::CenterF().y, 20.0 };
+
 	// ゲームループ
 	while (System::Update())
 	{
@@ -37,6 +41,10 @@ void Main()
 
 		// 背景の描画
 		clayPipe.draw();
+
+		// Rendering of the bird
+		bird.update();
+		bird.draw();
 
 	}
 }
