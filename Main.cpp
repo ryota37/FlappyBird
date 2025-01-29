@@ -1,5 +1,7 @@
 ﻿# include <Siv3D.hpp>
+# include <memory>
 # include "Bird.h"
+# include "GameState.cpp"
 
 void Main()
 {
@@ -24,9 +26,27 @@ void Main()
 	// Instantiate the bird
 	Bird bird{ Scene::CenterF().x, Scene::CenterF().y, 20.0 };
 
+
+
+	GameContext game;
+
+
 	// MainLoop
 	while (System::Update())
 	{
+
+
+		if (KeySpace.down())
+		{
+			game.startGame();
+		}
+		if (bird.collide())
+		{
+			game.gameOver();
+		}
+
+		game.exec();
+
 
 		// Update position of the claypipe
 		// The code below should be extracted to Claypipe class.
@@ -41,7 +61,6 @@ void Main()
 		// NOTE: wanna implement with the strategy pattern
 
 
-		// The title screen shown before playing the game.
 
 		// The process that carried out during the game play
 
