@@ -1,5 +1,10 @@
 ﻿# include <Siv3D.hpp>
 # include <memory>
+# include "Bird.h"
+# include "ClayPipe.h"
+# include "ColoredRect.h"
+
+// Instantiation
 
 class GameState
 {
@@ -22,10 +27,19 @@ public:
 
 class Playing : public GameState
 {
+private:
+	Bird bird{ Scene::CenterF().x, Scene::CenterF().y, 20.0 };
+	ClayPipe clayPipe;
+
 public:
 	void exec() override
 	{
-		// The title screen shown before playing the game.
+		// Rendering of the claypipe
+		clayPipe.update();
+		clayPipe.draw();
+		// Rendering of the bird
+		bird.update();
+		bird.draw();
 
 		// temporary code
 		Print << U"Playing";

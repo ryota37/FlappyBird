@@ -1,16 +1,6 @@
 ﻿# include <Siv3D.hpp>
-
-// Define colored rect
-struct ColoredRect
-{
-	Rect rect;
-	ColorF color;
-
-	void draw() const
-	{
-		rect.draw(color);
-	}
-};
+# include "ClayPipe.h"
+# include "ColoredRect.h"
 
 class ClayPipe : public ColoredRect
 {
