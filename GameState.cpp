@@ -2,7 +2,6 @@
 # include <memory>
 # include "Bird.h"
 # include "ClayPipe.h"
-# include "ColoredRect.h"
 
 // Instantiation
 
@@ -28,10 +27,12 @@ public:
 class Playing : public GameState
 {
 private:
-	Bird bird{ Scene::CenterF().x, Scene::CenterF().y, 20.0 };
-	ClayPipe clayPipe;
+	Bird& bird;
+	ClayPipe& clayPipe;
 
 public:
+	Playing(Bird& bird, ClayPipe& clayPipe) : bird(bird), clayPipe(clayPipe) {};
+
 	void exec() override
 	{
 		// Rendering of the claypipe
@@ -69,6 +70,8 @@ private:
 	}
 
 public:
+	std::unique_ptr<Bird> bird;
+	std::unique_ptr<ClayPipe> clayPipe;
 
 	// Initial state is BeforePlaying
 	GameContext() : currentState(std::make_shared<BeforePlaying>()) {}
@@ -76,15 +79,21 @@ public:
 	// Functions to switch game state
 	void startGame()
 	{
-		setState(std::make_shared<Playing>());
+		bird = std::make_unique<Bird>(Scene::CenterF().x, Scene::CenterF().y, 20.0);
+		clayPipe = std::make_unique<ClayPipe>(Rect(800, 0, 70, 300), Palette::Green);
+		setState(std::make_shared<Playing>(*bird, *clayPipe));
 	}
 	void gameOver()
 	{
 		setState(std::make_shared<GameOver>());
+		bird.reset();
+		clayPipe.reset();
 	}
 	void BackToTitle()
 	{
 		setState(std::make_shared<BeforePlaying>());
+		bird.reset();
+		clayPipe.reset();
 	}
 
 	// The code in exec() is executed in the main loop

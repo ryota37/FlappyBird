@@ -1,14 +1,13 @@
 ﻿#pragma once
-
 # include <Siv3D.hpp>
 
-struct ColoredRect
+class ColoredRect
 {
-	Rect rect;
-	ColorF color;
+protected:
+	s3d::Rect rect;
+	s3d::ColorF color;
 
-	void draw() const
-	{
-		rect.draw(color);
-	}
+public:
+	ColoredRect(s3d::Rect rect, s3d::ColorF color);
+	virtual void draw();
 };

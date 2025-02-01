@@ -2,13 +2,10 @@
 # include <memory>
 # include "Bird.h"
 # include "GameState.cpp"
-# include "ClayPipe.cpp"
+# include "ClayPipe.h"
 
 void Main()
 {
-	// Window setting
-	Window::Resize(800, 600);
-
 	// Instaniaton of context class
 	GameContext game;
 
@@ -19,7 +16,7 @@ void Main()
 		{
 			game.startGame();
 		}
-		if (bird.collide())
+		if (game.bird && game.bird->collide())
 		{
 			game.gameOver();
 		}

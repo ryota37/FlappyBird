@@ -2,7 +2,7 @@
 # include "Bird.h"
 
 Bird::Bird(double x, double y, double r)
-	:Circle(x, y, r), gravity(100.0), velocity(3000.0) {};
+	:s3d::Circle(x, y, r), gravity(100.0), velocity(3000.0) {};
 
 
 void Bird::update()
