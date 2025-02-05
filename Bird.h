@@ -9,6 +9,6 @@ private:
 public:
 	Bird(double x, double y, double r);
 	void update();
-	void collide();
+	bool collide();
 	void beyond();
 };
