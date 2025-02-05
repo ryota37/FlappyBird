@@ -10,4 +10,5 @@ protected:
 public:
 	ColoredRect(s3d::Rect rect, s3d::ColorF color);
 	virtual void draw();
+	virtual ~ColoredRect() = default;
 };

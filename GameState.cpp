@@ -1,104 +1,68 @@
-﻿# include <Siv3D.hpp>
-# include <memory>
-# include "Bird.h"
-# include "ClayPipe.h"
+﻿#include "GameState.h"
+#include <Siv3D.hpp>
 
-// Instantiation
-
-class GameState
+void BeforePlaying::exec()
 {
-public:
-	virtual void exec() = 0;
-	virtual ~GameState() = default;
-};
+	// The title screen shown before playing the game.
+	Print << U"Title Screen";
+}
 
-class BeforePlaying : public GameState
+Playing::Playing(const std::shared_ptr<Bird>& bird, const std::shared_ptr<ClayPipe>& clayPipe)
+	: bird(bird), clayPipe(clayPipe)
 {
-public:
-	void exec() override
-	{
-		// The title screen shown before playing the game.
+}
 
-		// temporary code
-		Print << U"Title Screen";
-	}
-};
-
-class Playing : public GameState
+void Playing::exec()
 {
-private:
-	Bird& bird;
-	ClayPipe& clayPipe;
+	// Rendering of the claypipe
+	clayPipe->update();
+	clayPipe->draw();
+	// Rendering of the bird
+	bird->update();
+	bird->draw();
 
-public:
-	Playing(Bird& bird, ClayPipe& clayPipe) : bird(bird), clayPipe(clayPipe) {};
+	// temporary code
+	Print << U"Playing";
+}
 
-	void exec() override
-	{
-		// Rendering of the claypipe
-		clayPipe.update();
-		clayPipe.draw();
-		// Rendering of the bird
-		bird.update();
-		bird.draw();
-
-		// temporary code
-		Print << U"Playing";
-	}
-};
-
-class GameOver : public GameState
+void GameOver::exec()
 {
-public:
-	void exec() override
-	{
-		// The title screen shown before playing the game.
+	// The title screen shown before playing the game.
+	Print << U"GameOver";
+}
 
-		// temporary code
-		Print << U"GameOver";
-	}
-};
-
-class GameContext
+GameContext::GameContext()
+	: currentState(std::make_shared<BeforePlaying>())
 {
-private:
-	std::shared_ptr<GameState> currentState;
+}
 
-	void setState(std::shared_ptr<GameState> state)
-	{
-		currentState = state;
-	}
+void GameContext::setState(std::shared_ptr<GameState> state)
+{
+	currentState = state;
+}
 
-public:
-	std::unique_ptr<Bird> bird;
-	std::unique_ptr<ClayPipe> clayPipe;
+void GameContext::startGame()
+{
+	bird = std::make_shared<Bird>(Scene::CenterF().x, Scene::CenterF().y, 20.0);
+	clayPipe = std::make_shared<ClayPipe>(Rect(800, 0, 70, 300), Palette::Green);
+	setState(std::make_shared<Playing>(bird, clayPipe));
+}
 
-	// Initial state is BeforePlaying
-	GameContext() : currentState(std::make_shared<BeforePlaying>()) {}
+void GameContext::gameOver()
+{
+	setState(std::make_shared<GameOver>());
+	bird.reset();
+	clayPipe.reset();
+}
 
-	// Functions to switch game state
-	void startGame()
-	{
-		bird = std::make_unique<Bird>(Scene::CenterF().x, Scene::CenterF().y, 20.0);
-		clayPipe = std::make_unique<ClayPipe>(Rect(800, 0, 70, 300), Palette::Green);
-		setState(std::make_shared<Playing>(*bird, *clayPipe));
-	}
-	void gameOver()
-	{
-		setState(std::make_shared<GameOver>());
-		bird.reset();
-		clayPipe.reset();
-	}
-	void BackToTitle()
-	{
-		setState(std::make_shared<BeforePlaying>());
-		bird.reset();
-		clayPipe.reset();
-	}
+void GameContext::BackToTitle()
+{
+	setState(std::make_shared<BeforePlaying>());
+	bird.reset();
+	clayPipe.reset();
+}
 
-	// The code in exec() is executed in the main loop
-	void exec()
-	{
-		currentState->exec();
-	}
-};
+void GameContext::exec()
+{
+	currentState->exec();
+}
