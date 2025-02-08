@@ -65,6 +65,8 @@ void Main()
 			clayPipe4.draw();
 			// Rendering of the bird
 			bird.update();
+
+			// Replace the white ball with the bird image(emoji?)
 			bird.draw();
 
 			// The game over screen shown when the bird died
