@@ -19,10 +19,13 @@ void Main()
 	};
 
 	// Instaniate the claypipe
-	ColoredRect clayPipe{Rect(800,0,70,300), Palette::Green };
+	ColoredRect clayPipe1{ Rect(800,0,70,300), Palette::Green };
+	ColoredRect clayPipe2{ Rect(500,300,70,300), Palette::Green };
+	ColoredRect clayPipe3{ Rect(1100,400,70,200), Palette::Green };
+	ColoredRect clayPipe4{ Rect(1100,0,70,200), Palette::Green };
 
 	// Instantiate the bird
-	Bird bird{ Scene::CenterF().x, Scene::CenterF().y, 20.0 };
+	Bird bird{ 200, Scene::CenterF().y, 20.0 };
 
 	// ManageGameOver
 	bool isGameOver = false;
@@ -34,14 +37,32 @@ void Main()
 		if (!isGameOver)
 		{
 			// Update position of the claypipe
-			clayPipe.rect.x -= (Scene::DeltaTime() * 20);
-			if (clayPipe.rect.x == 0)
+			clayPipe1.rect.x -= (Scene::DeltaTime() * 20);
+			if (clayPipe1.rect.x == 0)
 			{
-				clayPipe.rect.x = 800;
+				clayPipe1.rect.x = 1100;
+			}
+			clayPipe2.rect.x -= (Scene::DeltaTime() * 20);
+			if (clayPipe2.rect.x == 0)
+			{
+				clayPipe2.rect.x = 1100;
+			}
+			clayPipe3.rect.x -= (Scene::DeltaTime() * 20);
+			if (clayPipe3.rect.x == 0)
+			{
+				clayPipe3.rect.x = 1100;
+			}
+			clayPipe4.rect.x -= (Scene::DeltaTime() * 20);
+			if (clayPipe4.rect.x == 0)
+			{
+				clayPipe4.rect.x = 1100;
 			}
 
 			// Rendering of the claypipe
-			clayPipe.draw();
+			clayPipe1.draw();
+			clayPipe2.draw();
+			clayPipe3.draw();
+			clayPipe4.draw();
 			// Rendering of the bird
 			bird.update();
 			bird.draw();
@@ -51,7 +72,7 @@ void Main()
 			{
 				isGameOver = true;
 			}
-			if (bird.intersects(clayPipe.rect))
+			if (bird.intersects(clayPipe1.rect) || bird.intersects(clayPipe2.rect) || bird.intersects(clayPipe3.rect) || bird.intersects(clayPipe4.rect))
 			{
 				isGameOver = true;
 			}
@@ -61,8 +82,11 @@ void Main()
 			minifont(U"GameOver!").drawAt(Scene::Center());
 			if (KeyEnter.pressed())
 			{
-				clayPipe = { Rect(800,0,70,300), Palette::Green };
-				bird = { Scene::CenterF().x, Scene::CenterF().y, 20.0 };
+				clayPipe1 = { Rect(800,0,70,300), Palette::Green };
+				clayPipe2 = { Rect(500,300,70,300), Palette::Green };
+				clayPipe3 = { Rect(1100,400,70,200), Palette::Green };
+				clayPipe4 = { Rect(1100,0,70,200), Palette::Green };
+				bird = { 200, Scene::CenterF().y, 20.0 };
 				isGameOver = false;
 			}
 		}
