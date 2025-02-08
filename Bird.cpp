@@ -23,5 +23,6 @@ bool Bird::collide()
 
 void Bird::beyond()
 {
+	// Count how many times player(bird) go beyond the claypipes
 
 }
