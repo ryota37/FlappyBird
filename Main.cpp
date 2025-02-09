@@ -6,6 +6,9 @@ void Main()
 	// Font information
 	const Font minifont{ FontMethod::MSDF, 24, Typeface::Bold };
 
+	// Texture information
+	Texture birdTexture{ U"🐤"_emoji };
+
 	// Define colored rect
 	struct ColoredRect
 	{
@@ -63,11 +66,11 @@ void Main()
 			clayPipe2.draw();
 			clayPipe3.draw();
 			clayPipe4.draw();
-			// Rendering of the bird
+			// Update the coordinate of the bird (for hit judgement)
 			bird.update();
 
-			// Replace the white ball with the bird image(emoji?)
-			bird.draw();
+			// Render the emoji of the bird
+			birdTexture.scaled(0.5).mirrored(true).drawAt(bird.x, bird.y);
 
 			// The game over screen shown when the bird died
 			if (bird.collide())
