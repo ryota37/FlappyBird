@@ -20,9 +20,3 @@ bool Bird::collide()
 	if (y < 0 || y > 600) return true;
 	return false;
 }
-
-void Bird::beyond()
-{
-	// Count how many times player(bird) go beyond the claypipes
-
-}

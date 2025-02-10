@@ -10,5 +10,4 @@ public:
 	Bird(double x, double y, double r);
 	void update();
 	bool collide();
-	void beyond();
 };

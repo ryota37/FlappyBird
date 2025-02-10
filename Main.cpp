@@ -42,7 +42,7 @@ void Main()
 	// MainLoop
 	while (System::Update())
 	{
-
+		// Playing the game
 		if (!isGameOver)
 		{
 			// Update position of the claypipe
@@ -113,7 +113,9 @@ void Main()
 		}
 		else
 		{
+			// GameOver screen
 			minifont(U"GameOver!").drawAt(Scene::Center());
+			// Restart processing
 			if (KeyEnter.pressed())
 			{
 				clayPipe1 = { Rect(800,0,70,300), Palette::Green };
