@@ -33,6 +33,12 @@ void Main()
 	// ManageGameOver
 	bool isGameOver = false;
 
+	// BeyondCounter
+	int beyondCount = 0;
+	bool passed1 = false;
+	bool passed2 = false;
+	bool passed3 = false;
+
 	// MainLoop
 	while (System::Update())
 	{
@@ -44,16 +50,19 @@ void Main()
 			if (clayPipe1.rect.x == 0)
 			{
 				clayPipe1.rect.x = 1100;
+				passed1 = false;
 			}
 			clayPipe2.rect.x -= (Scene::DeltaTime() * 20);
 			if (clayPipe2.rect.x == 0)
 			{
 				clayPipe2.rect.x = 1100;
+				passed2 = false;
 			}
 			clayPipe3.rect.x -= (Scene::DeltaTime() * 20);
 			if (clayPipe3.rect.x == 0)
 			{
 				clayPipe3.rect.x = 1100;
+				passed3 = false;
 			}
 			clayPipe4.rect.x -= (Scene::DeltaTime() * 20);
 			if (clayPipe4.rect.x == 0)
@@ -71,6 +80,26 @@ void Main()
 
 			// Render the emoji of the bird
 			birdTexture.scaled(0.5).mirrored(true).drawAt(bird.x, bird.y);
+
+			// Increment when the bird go beyond a claypipe
+			if (bird.x > clayPipe1.rect.x && !passed1)
+			{
+				beyondCount++;
+				passed1 = true;
+			}
+			if (bird.x > clayPipe2.rect.x && !passed2)
+			{
+				beyondCount++;
+				passed2 = true;
+			}
+			if (bird.x > clayPipe3.rect.x && !passed3)
+			{
+				beyondCount++;
+				passed3 = true;
+			}
+
+			// Show beyond counter
+			minifont(U"Score: {}"_fmt(beyondCount)).drawAt(Scene::Center());
 
 			// The game over screen shown when the bird died
 			if (bird.collide())
@@ -93,6 +122,10 @@ void Main()
 				clayPipe4 = { Rect(1100,0,70,200), Palette::Green };
 				bird = { 200, Scene::CenterF().y, 20.0 };
 				isGameOver = false;
+				passed1 = false;
+				passed2 = false;
+				passed3 = false;
+				beyondCount = 0;
 			}
 		}
 	}
